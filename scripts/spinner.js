@@ -31,7 +31,12 @@ function losuj() {
             var middleCells = document.querySelectorAll('.container table tr:nth-child(2) td');
             var middleIds = Array.from(middleCells).map(function(td) { return td.dataset.symbol; });
             var payout = calculateMiddleRowPayout(middleIds);
-            showPayout(payout);
+            // Zastosuj dowolny mnożnik wypłaty z ulepszeń
+            var multiplier = (typeof getPayoutMultiplier === 'function') ? getPayoutMultiplier() : 1;
+            var totalPayout = Math.floor(payout * multiplier);
+            if (typeof showPayout === 'function') showPayout(totalPayout);
+            // Dodaj do salda gracza (trwałe)
+            if (typeof addBalance === 'function' && totalPayout > 0) addBalance(totalPayout);
         }
     }, interval);
 }
