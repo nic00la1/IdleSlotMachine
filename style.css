@@ -2,14 +2,36 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 table {
     border: 1px solid black;
     padding: 1rem;
+    border-radius: 15px;
 }
 
 td {
     padding: 4rem;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: rgb(54, 143, 19);
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    border-color: azure;
+}
+
+button:hover {
+    background-color: rgb(10, 124, 19);
+    color: rgb(208, 255, 0);
 }
