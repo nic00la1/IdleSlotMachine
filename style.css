@@ -1,3 +1,31 @@
+.app-layout {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    padding: 28px;
+}
+
+aside#sidebar {
+    width: 340px;
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.balance {
+    font-weight: 800;
+    margin-bottom: 16px;
+    font-size: 18px;
+}
+
+.shop button {
+    display: block;
+    margin-top: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -11,10 +39,12 @@ table {
 }
 
 td {
-    padding: 4rem;
+    padding: 4.2rem;
     border: 1px solid black;
-    border-radius: 15px;
-    font-size: 22px;
+    border-radius: 18px;
+    font-size: 28px;
+    text-align: center;
+    min-width: 140px;
 }
 
 .btn-container {
@@ -24,12 +54,13 @@ td {
 }
 
 button {
-    padding: 15px 20px;
+    padding: 18px 26px;
     background-color: rgb(54, 143, 19);
     color: white;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 12px;
     border-color: azure;
+    font-size: 16px;
 }
 
 button:hover {
@@ -47,4 +78,11 @@ button:disabled {
     margin-top: 12px;
     padding: 20px;
     font-weight: 600;
+}
+
+@media (max-width: 800px) {
+    .app-layout { flex-direction: column; }
+    aside#sidebar { width: 100%; }
+    td { padding: 2.2rem; font-size: 20px; }
+    .shop button { font-size: 14px; padding: 10px 12px; }
 }
