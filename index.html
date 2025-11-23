@@ -12,32 +12,37 @@
     <script src="scripts/main.js"></script>
 </head>
 <body>
-    <div class="container">
-        <table>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>    
-    </div>
-    <div class="btn-container">
-        <button class="roll" onclick="losuj()">Losuj</button>
-        <div id="payout"></div>
-    </div>
-    <div id="economy-panel" style="margin-top:12px; display:flex; gap:16px; align-items:flex-start;">
-        <div id="balance" style="font-weight:600;">Saldo: 0</div>
-        <div id="shop"></div>
+    <div class="app-layout">
+        <aside id="sidebar">
+            <div id="balance" class="balance">Saldo: 0</div>
+            <div id="shop" class="shop"></div>
+        </aside>
+
+        <main id="main-area">
+            <div class="container">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="btn-container">
+                <button class="roll" onclick="losuj()">Losuj</button>
+                <div id="payout"></div>
+            </div>
+        </main>
     </div>
 </body>
 </html>
