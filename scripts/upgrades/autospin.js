@@ -2,7 +2,7 @@
     var autoSpin = false;
     var autoSpinTimer = null;
 
- function toggleAutoSpin() {
+ export function toggleAutoSpin() {
         autoSpin = !autoSpin;
         
         var btn = document.getElementById('auto-spin-toggle');
@@ -21,20 +21,7 @@
         } 
     }
 
-    // uruchom przy starcie
-    document.addEventListener('DOMContentLoaded', initAutoSpinUI);
-
-    // wywołaj też po każdym odświeżeniu sklepu - automatycznie
-    if (typeof renderShop === 'function') {
-        const originalRenderShop = renderShop;
-        renderShop = function(...args) {
-            const result = originalRenderShop.apply(this, args);
-            initAutoSpinUI();
-            return result;
-        }
-    }
-
-    function initAutoSpinUI() {
+ export function initAutoSpinUI(gameState) {
         const btn = document.getElementById('auto-spin-toggle');
         if (!btn) return;
 
@@ -50,4 +37,5 @@
         }
     }
 
-
+window.toggleAutoSpin = toggleAutoSpin;
+window.initAutoSpinUI = initAutoSpinUI;

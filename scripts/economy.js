@@ -189,4 +189,21 @@ function renderShop() {
     item.appendChild(btn);
     el.appendChild(item);
     });
+
+    if (typeof window.initAutoSpinUI === 'function') {
+    window.initAutoSpinUI(window.gameState);
+    }
 }
+
+window.gameState = gameState;
+window.addBalance = addBalance;
+window.renderShop = renderShop;
+window.renderBalance = renderBalance;
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadGame();
+    updateUI();
+    if (typeof window.initAutoSpinUI === 'function') {
+        window.initAutoSpinUI(window.gameState);
+    }
+});
