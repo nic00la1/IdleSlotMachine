@@ -1,28 +1,69 @@
-// Ekonomia i ulepszenia (zachowane w localStorage)
+// --- Klucze do localStorage ---
 var ECON_KEY_BALANCE = 'idle_slot_balance_v1';
 var ECON_KEY_UPGRADES = 'idle_slot_upgrades_v1';
 
+// --- Stan gry ---
 var gameState = {
-    balance: 0,
-    upgrades: {
-        payoutMultiplierLevel: 0,
-        payoutMultiplier: 1
-    }
+    balance: 0, // aktualne saldo
+    upgrades: [
+        {
+            key: 'payoutMultiplier',
+            name: 'Mnożnik wypłat',
+            description: 'Zwiększa wygrane poprzez mnożnik x2, x3 itd.',
+            baseCost: 500,
+            level: 0
+        },
+        {
+            key: 'fasterSpin',
+            name: 'Szybsze losowanie',
+            description: 'Zmniejsza czas trwania animacji spinu.',
+            baseCost: 300,
+            level: 0
+        },
+        {
+            key: 'bonusChance',
+            name: 'Szansa na bonus',
+            description: 'Dodaje dodatkową szansę na wygraną w środkowym rzędzie.',
+            baseCost: 800,
+            level: 0
+        },
+    ]
 };
 
+function updateUI() {
+    renderBalance();
+    renderShop();
+}
+
+// --- Funkcje ekonomii i zapisu ---
 function loadGame() {
     try {
+        // saldo
         var rawBal = localStorage.getItem(ECON_KEY_BALANCE);
-        if (rawBal !== null) gameState.balance = parseInt(rawBal, 10) || 0;
+        if (rawBal !== null) {
+            var parsed = parseInt(rawBal, 10);
+            gameState.balance = isNaN(parsed) ? 0 : parsed;
+        } 
+
+        // ulepszenia
         var rawUp = localStorage.getItem(ECON_KEY_UPGRADES);
         if (rawUp) {
-            var up = JSON.parse(rawUp);
-            if (up && typeof up === 'object') {
-                gameState.upgrades = Object.assign(gameState.upgrades, up);
+            var savedUpgrades = JSON.parse(rawUp);
+
+            if (Array.isArray(savedUpgrades)) {
+                // scal po kluczu 'key'
+                savedUpgrades.forEach(function(saved) {
+                    var current = gameState.upgrades.find(function(u) {
+                        return u.key === saved.key;
+                    });
+                    if (current) {
+                        current.level = saved.level; // zachowaj poziom
+                    }
+                })
             }
         }
     } catch (e) {
-        console.warn('Failed to load game state', e);
+        console.warn('Nie udało się zapisać stanu gry', e);
     }
 }
 
@@ -31,7 +72,7 @@ function saveGame() {
         localStorage.setItem(ECON_KEY_BALANCE, String(gameState.balance));
         localStorage.setItem(ECON_KEY_UPGRADES, JSON.stringify(gameState.upgrades));
     } catch (e) {
-        console.warn('Failed to save game state', e);
+        console.warn('Nie udało się zapisać stanu gry', e);
     }
 }
 
@@ -41,7 +82,7 @@ function addBalance(amount) {
     if (!amount || amount <= 0) return 0;
     gameState.balance += Math.floor(amount);
     saveGame();
-    renderBalance();
+    updateUI();
     return gameState.balance;
 }
 
@@ -54,10 +95,16 @@ function spend(amount) {
     if (!canAfford(amount)) return false;
     gameState.balance -= amount;
     saveGame();
-    renderBalance();
+    updateUI();
     return true;
 }
 
+function upgradeCost(upgrade) {
+    return upgrade.baseCost * (upgrade.level + 1);
+}
+
+
+// --- Ulepszenia ---
 function getPayoutMultiplier() { return gameState.upgrades.payoutMultiplier || 1; }
 
 function payoutMultiplierCostForLevel(level) {
@@ -76,11 +123,11 @@ function buyPayoutMultiplier() {
     gameState.upgrades.payoutMultiplierLevel = lvl + 1;
     gameState.upgrades.payoutMultiplier = 1 + gameState.upgrades.payoutMultiplierLevel; // level 1 => multiplier 2
     saveGame();
-    renderShop();
-    renderBalance();
+    updateUI();
     return true;
 }
 
+// --- Renderowanie UI ---
 function renderBalance() {
     var el = document.getElementById('balance');
     if (!el) return;
@@ -90,8 +137,6 @@ function renderBalance() {
 function renderShop() {
     var el = document.getElementById('shop');
     if (!el) return;
-    var lvl = gameState.upgrades.payoutMultiplierLevel || 0;
-    var cost = payoutMultiplierCostForLevel(lvl);
     el.innerHTML = '';
 
     var title = document.createElement('div');
@@ -99,12 +144,38 @@ function renderShop() {
     title.style.fontWeight = '600';
     el.appendChild(title);
 
-    var item = document.createElement('div');
-    item.style.marginTop = '8px';
-    item.innerHTML = '<div>Mnożnik wypłat: x' + (gameState.upgrades.payoutMultiplier || 1) + ' (level ' + lvl + ')</div>';
+    gameState.upgrades.forEach(function(up) {
+        var cost = upgradeCost(up);
+
+        var item = document.createElement('div');
+        item.className = 'upgrade-item';
+        item.style.marginTop = '12px';
+        item.innerHTML = `
+            <div>
+                <strong>${up.name}</strong> (poziom ${up.level})
+            </div>
+            <div>
+                ${up.description}
+            </div>
+            <div>
+                Koszt: ${cost}
+            </div>
+        `;
+    
+
     var btn = document.createElement('button');
-    btn.textContent = 'Kup (+1) — Koszt: ' + cost;
-    btn.onclick = function() { buyPayoutMultiplier(); };
+    btn.textContent = 'Kup';
+    btn.disabled = !canAfford(cost);
+    btn.onclick = function() {
+        if (spend(cost)) {
+            up.level++;
+            saveGame();
+            renderShop();
+            renderBalance();
+        }
+    };
+
     item.appendChild(btn);
     el.appendChild(item);
+    });
 }

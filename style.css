@@ -5,6 +5,13 @@
     padding: 28px;
 }
 
+#sidebar h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
 aside#sidebar {
     width: 340px;
     background: #f7f7f7;
@@ -19,11 +26,35 @@ aside#sidebar {
     font-size: 18px;
 }
 
+.shop {
+    border-top: 1px solid #ccc;
+    padding-top: 12px;
+}
+
+.shop div {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 12px;
+}
+
 .shop button {
     display: block;
     margin-top: 10px;
     padding: 12px 14px;
     font-size: 15px;
+}
+
+.upgrade-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 12px;
+}
+.upgrade-item div {
+    margin: 4px 0;
 }
 
 .container {
