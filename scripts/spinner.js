@@ -1,3 +1,5 @@
+
+// --- Funkcja losuj --- 
 function losuj() {
     var btn = document.querySelector('.btn-container .roll');
     var cells = document.querySelectorAll('.container table td');
@@ -49,26 +51,4 @@ function losuj() {
             if (typeof addBalance === 'function' && totalPayout > 0) addBalance(totalPayout);
         }
     }, interval);
-
-    // --- Auto-Spin ---
-    var autoSpin = false;
-    var autoSpinTimer = null;
-
-    function toggleAutoSpin() {
-        autoSpin = !autoSpin;
-        
-        var btn = document.getElementById('auto-spin-toggle');
-        btn.textContent = "Auto-spin: " + (autoSpin ? "ON" : "OFF");
-
-        if(autoSpin) 
-            autoSpinTimer = setInterval(losuj, 5000); // Spin co 5 sekund
-        else 
-            clearInterval(autoSpinTimer);
-    }
-
-    // Podpinamy przycisk po załadowaniu strony
-    document.addEventListener('DOMContentLoaded', function() {
-        var btn = document.getElementById('auto-spin-toggle');
-        if (btn) btn.onclick = toggleAutoSpin;
-    })
 }
