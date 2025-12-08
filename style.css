@@ -1,8 +1,15 @@
+html, body {
+    height: 100%;
+    overflow: hidden; /* blokuje scrollowanie całej strony */
+}
+
 .app-layout {
     display: flex;
     gap: 28px;
     align-items: flex-start;
     padding: 28px;
+    max-width: 1200px;
+    margin: 0;
 }
 
 #sidebar h2 {
@@ -12,12 +19,19 @@
     text-align: center;
 }
 
+#main-area {
+    flex: 2; /* główny panel większy */
+}
+
 aside#sidebar {
-    width: 340px;
+    flex: 1; /* sidebar proporcjonalnie mniejszy */
+    max-width: 340px;
     background: #f7f7f7;
     border: 1px solid #ddd;
     padding: 18px;
     border-radius: 10px;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 .balance {
@@ -31,21 +45,7 @@ aside#sidebar {
     padding-top: 12px;
 }
 
-.shop div {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 12px;
-}
-
-.shop button {
-    display: block;
-    margin-top: 10px;
-    padding: 12px 14px;
-    font-size: 15px;
-}
-
+.shop div,
 .upgrade-item {
     background: #fff;
     border: 1px solid #ddd;
@@ -53,45 +53,48 @@ aside#sidebar {
     padding: 10px;
     margin-bottom: 12px;
 }
+
 .upgrade-item div {
     margin: 4px 0;
 }
 
 .container {
+    flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 table {
+    margin: 0 auto;
     border: 1px solid black;
     padding: 1rem;
     border-radius: 15px;
+    width: clamp(300px, 80%, 600px);
 }
 
 td {
-    padding: 4.2rem;
+    padding: clamp(1rem, 4vw, 3rem);
+    font-size: clamp(16px, 2vw, 28px);
+    border-radius: 12px;
     border: 1px solid black;
-    border-radius: 18px;
-    font-size: 28px;
     text-align: center;
-    min-width: 140px;
 }
 
 .btn-container {
     display: flex;
     justify-content: center;
     margin: 20px;
+    gap: 12px;
 }
 
 button {
-    padding: 18px 26px;
+    padding: 14px 20px;
     background-color: rgb(54, 143, 19);
     color: white;
     cursor: pointer;
     border-radius: 12px;
-    border-color: azure;
-    font-size: 16px;
+    border: none;
+    font-size: 15px;
 }
 
 button:hover {
@@ -111,9 +114,83 @@ button:disabled {
     font-weight: 600;
 }
 
+/* --- Responsywność --- */
+@media (max-width: 1200px) {
+    .app-layout {
+        gap: 20px;
+        padding: 20px;
+    }
+    aside#sidebar {
+        flex: 0 0 240px;
+        padding: 14px;
+    }
+    td {
+        font-size: 22px;
+        padding: 2.4rem;
+    }
+}
+
 @media (max-width: 800px) {
-    .app-layout { flex-direction: column; }
-    aside#sidebar { width: 100%; }
-    td { padding: 2.2rem; font-size: 20px; }
+    .app-layout { 
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px; 
+    }
+    aside#sidebar { 
+        width: 100%;
+        max-width: none;
+        padding: 12px;
+    }
+    td { 
+        padding: 1.8rem;
+        font-size: 18px;
+    }
     .shop button { font-size: 14px; padding: 10px 12px; }
+}
+
+@media (max-width: 500px) {
+    .app-layout {
+        padding: 10px;
+        gap: 12px;
+    }
+    #sidebar h2 { font-size: 18px; }
+    .balance { font-size: 16px; }
+    td {
+        padding: 1.2rem;
+        font-size: 16px;
+    }
+    .btn-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    button {
+        width: 100%;
+        font-size: 14px;    
+    }
+    .shop button {
+        width: 100%;
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+}
+
+
+/* Stylizacja scrolla tylko dla sidebaru */
+aside#sidebar::-webkit-scrollbar {
+    width: 8px;              /* szerokość paska */
+}
+
+aside#sidebar::-webkit-scrollbar-track {
+    background: #f0f0f0;      /* tło toru */
+    border-radius: 10px;
+}
+
+aside#sidebar::-webkit-scrollbar-thumb {
+    background-color: rgb(54, 143, 19); /* zielony akcent */
+    border-radius: 10px;
+    border: 2px solid #f0f0f0; /* lekki kontrast */
+}
+
+aside#sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(10, 124, 19); /* ciemniejszy przy hover */
 }

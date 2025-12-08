@@ -6,8 +6,18 @@ function losuj() {
 
     if (btn) btn.disabled = true;
 
+
     var duration = 900; // ms
     var interval = 160;  // ms
+
+    // Jeśli gracz ma ulepszenie fasterSpin
+    var faster = gameState.upgrades.find(u => u.key === 'fasterSpin');
+    if (faster && faster.level > 0) {
+        // skracamy czas animacji proporcjonalnie do poziomu
+        duration = Math.max(300, duration - faster.level * 100);
+        interval = Math.max(80, interval - faster.level * 20);
+    }
+
     var start = Date.now();
 
     var timer = setInterval(function() {
@@ -39,4 +49,26 @@ function losuj() {
             if (typeof addBalance === 'function' && totalPayout > 0) addBalance(totalPayout);
         }
     }, interval);
+
+    // --- Auto-Spin ---
+    var autoSpin = false;
+    var autoSpinTimer = null;
+
+    function toggleAutoSpin() {
+        autoSpin = !autoSpin;
+        
+        var btn = document.getElementById('auto-spin-toggle');
+        btn.textContent = "Auto-spin: " + (autoSpin ? "ON" : "OFF");
+
+        if(autoSpin) 
+            autoSpinTimer = setInterval(losuj, 5000); // Spin co 5 sekund
+        else 
+            clearInterval(autoSpinTimer);
+    }
+
+    // Podpinamy przycisk po załadowaniu strony
+    document.addEventListener('DOMContentLoaded', function() {
+        var btn = document.getElementById('auto-spin-toggle');
+        if (btn) btn.onclick = toggleAutoSpin;
+    })
 }

@@ -29,6 +29,14 @@ var gameState = {
             baseCost: 800,
             level: 0
         },
+        {
+            key: 'autoSpin',
+            name: 'Auto-spin',
+            description: "Automatyczne losowanie głównej maszyny co kilka sekund",
+            baseCost: 1000,
+            growth: 1.4,
+            level: 0
+        }
     ]
 };
 
