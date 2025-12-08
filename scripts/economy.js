@@ -11,6 +11,7 @@ var gameState = {
             name: 'Mnożnik wypłat',
             description: 'Zwiększa wygrane poprzez mnożnik x2, x3 itd.',
             baseCost: 500,
+            growth: 1.6, // szybciej rośnie wykładniczo
             level: 0
         },
         {
@@ -18,6 +19,7 @@ var gameState = {
             name: 'Szybsze losowanie',
             description: 'Zmniejsza czas trwania animacji spinu.',
             baseCost: 300,
+            growth: 1.3, // wolniej rośnie wykładniczo
             level: 0
         },
         {
@@ -100,7 +102,8 @@ function spend(amount) {
 }
 
 function upgradeCost(upgrade) {
-    return upgrade.baseCost * (upgrade.level + 1);
+    var growth = upgrade.growth || 1.5 // współczynnik wzrostu (domyślnie 1.5)
+    return Math.floor(upgrade.baseCost * Math.pow(growth, upgrade.level));
 }
 
 
