@@ -2,30 +2,36 @@ import { getPayoutMultiplier } from './upgrades/payoutMultiplier.js';
 import { applyFasterSpin } from './upgrades/fasterSpin.js';
 import { applyBonusChance } from './upgrades/bonusChance.js';
 
+import { gameState } from './core/state.js';
+import { addBalance } from './core/economy.js';
+import { showPayout } from './core/ui.js';
+import { symbols, total } from './symbols.js';
+import { calculateMiddleRowPayout } from './utils.js';
+
 // --- Funkcja losuj --- 
-function losuj() {
-    var btn = document.querySelector('.btn-container .roll');
-    var cells = document.querySelectorAll('.container table td');
+export function losuj() {
+    const btn = document.querySelector('.btn-container .roll');
+    const cells = document.querySelectorAll('.container table td');
 
     if (!cells || cells.length === 0) return;
     if (btn) btn.disabled = true;
 
-// --- Domyślne wartości --- 
-    var duration = 900; // ms
-    var interval = 160;  // ms
+    // --- Domyślne wartości --- 
+    let duration = 900; // ms
+    let interval = 160;  // ms
 
     // Jeśli gracz ma ulepszenie fasterSpin
-    var faster = gameState.upgrades.find(u => u.key === 'fasterSpin');
+    const faster = gameState.upgrades.find(u => u.key === 'fasterSpin');
     if (faster) {
         // skracamy czas animacji proporcjonalnie do poziomu
         ({ duration, interval } = applyFasterSpin(faster.level, duration, interval));
     }
 
-    var start = Date.now();
+    const start = Date.now();
 
-    var timer = setInterval(function() {
-        cells.forEach(function(cell) {
-            var sym = symbols[Math.floor(Math.random() * total)];
+    const timer = setInterval(() => {
+        cells.forEach(cell => {
+            const sym = symbols[Math.floor(Math.random() * total)];
             cell.textContent = sym.icon;
             cell.dataset.symbol = sym.id;
         });
@@ -34,17 +40,17 @@ function losuj() {
             clearInterval(timer);
 
             // Końcowe losowanie
-            cells.forEach(function(cell) {
-                var sym = symbols[Math.floor(Math.random() * total)];
+            cells.forEach(cell => {
+                const sym = symbols[Math.floor(Math.random() * total)];
                 cell.textContent = sym.icon;
                 cell.dataset.symbol = sym.id;
             });
             if (btn) btn.disabled = false;
 
             // --- Obliczanie wygraną tylko dla środkowego rzędu --- 
-            var middleCells = document.querySelectorAll('.container table tr:nth-child(2) td');
-            var middleIds = Array.from(middleCells).map(function(td) { return td.dataset.symbol; });
-            var payout = calculateMiddleRowPayout(middleIds);
+            const middleCells = document.querySelectorAll('.container table tr:nth-child(2) td');
+            const middleIds = Array.from(middleCells).map(td => td.dataset.symbol);
+            let payout = calculateMiddleRowPayout(middleIds);
 
             // --- BonusChance Upgrade ---
             const bonus = gameState.upgrades.find(u => u.key === 'bonusChance');
@@ -56,13 +62,10 @@ function losuj() {
             const multiplierUpgrade = gameState.upgrades.find(u => u.key === 'payoutMultiplier');
             const multiplier = multiplierUpgrade ? getPayoutMultiplier(multiplierUpgrade.level) : 1;
 
-            var totalPayout = Math.floor(payout * multiplier);
+            const totalPayout = Math.floor(payout * multiplier);
             
-            if (typeof showPayout === 'function') showPayout(totalPayout);
-            // Dodaj do salda gracza (trwałe)
-            if (typeof addBalance === 'function' && totalPayout > 0) addBalance(totalPayout);
+           showPayout(totalPayout);
+           if (totalPayout > 0) addBalance(totalPayout);
         }
     }, interval);
 }
-
-window.losuj = losuj;

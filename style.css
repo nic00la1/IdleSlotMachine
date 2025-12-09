@@ -194,3 +194,9 @@ aside#sidebar::-webkit-scrollbar-thumb {
 aside#sidebar::-webkit-scrollbar-thumb:hover {
     background-color: rgb(10, 124, 19); /* ciemniejszy przy hover */
 }
+
+.event-log {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #007700;
+}

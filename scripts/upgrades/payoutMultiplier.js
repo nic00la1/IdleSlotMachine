@@ -1,3 +1,7 @@
+import { showEvent } from "../helpers/eventLog.js";
+
 export function getPayoutMultiplier(level) {
-    return 1 + level; // Poziom 1 = x2, poziom 2 = x3 itd.
+    const multiplier = 1 + level;
+    showEvent(`💰 Mnożnik wypłat: x${multiplier}`)
+    return multiplier;    
 }

@@ -5,14 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Idle Slot Machine</title>
     <link rel="stylesheet" href="style.css">
-    <script src="scripts/symbols.js"></script>
-    <script src="scripts/utils.js"></script>
-
-    <!-- Moduły -->
-    <script type="module" src="scripts/economy.js"></script>
-    <script type="module" src="scripts/spinner.js"></script>
-    <script type="module" src="scripts/upgrades/autospin.js"></script>
-    <script type="module" src="scripts/main.js"></script>
 </head>
 <body>
     <div class="app-layout">
@@ -43,11 +35,15 @@
                 </table>
             </div>
             <div class="btn-container">
-                <button class="roll" onclick="losuj()">Losuj</button>
+                <button class="roll">Losuj</button>
                 <button id="auto-spin-toggle">Auto-spin: OFF</button>
                 <div id="payout"></div>
+                <div id="event-log" class="event-log"></div>
             </div>
         </main>
     </div>
+
+    <!-- Główny skrypt -->
+    <script type="module" src="scripts/main.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 // definicje symboli (dane).
-var symbols = [
+export const symbols = [
     {id: '7', icon : '7', value: 100},
     {id: 'star', icon : '⭐', value: 90},
     {id: 'coin', icon : '🪙', value: 80},
@@ -12,4 +12,4 @@ var symbols = [
     {id: 'rose', icon : '🌹', value: 10}
 ];
 
-var total = symbols.length;
+export const total = symbols.length;

@@ -1,5 +1,7 @@
-//  funkcje pomocnicze: 
-var symbolValues = (function(){
+import { symbols } from './symbols.js';
+
+// Tworzymy mapę wartości symboli 
+const symbolValues = (function(){
     var map = {};
     for (var i = 0; i < symbols.length; i++) {
         map[symbols[i].id] = symbols[i].value;
@@ -7,7 +9,7 @@ var symbolValues = (function(){
     return map;
 })();
 
-function calculateMiddleRowPayout(middleIds) {
+export function calculateMiddleRowPayout(middleIds) {
     var counts = {};
     for (var i = 0; i < middleIds.length; i++) {
         var id = middleIds[i];
@@ -25,11 +27,8 @@ function calculateMiddleRowPayout(middleIds) {
     return payout;
 }
 
-function showPayout(amount) {
+export function showPayout(amount) {
     var el = document.getElementById('payout');
-    if (amount > 0) {
-        el.textContent = 'Wygrana: ' + amount;
-    } else {
-        el.textContent = 'Brak wygranej';
-    }
+    if (!el) return;
+    el.textContent = amount > 0 ? `Wygrana: ${amount}` : 'Brak wygranej';
 }
