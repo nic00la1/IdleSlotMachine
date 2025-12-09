@@ -9,6 +9,9 @@ import { renderBalance, renderShop, showPayout } from "./core/ui.js";
 // Importy helperów
 import { showEvent } from "./helpers/eventLog.js";
 
+import { initAutoSpinUI } from './upgrades/autoSpin.js';
+import { gameState } from "./core/state.js";
+
 // Importy upgrades
 import './upgrades/fasterSpin.js';
 import './upgrades/bonusChance.js';
@@ -25,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderShop();
     showPayout(0);
     showEvent('🎰 Gra uruchomiona!');
+    initAutoSpinUI(gameState);
 
     const btn = document.querySelector('.roll');
     if (btn) btn.addEventListener('click', losuj);

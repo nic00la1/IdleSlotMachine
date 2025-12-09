@@ -1,5 +1,6 @@
 import { gameState } from './state.js';
 import { saveGame } from './storage.js';
+import { renderBalance } from './ui.js';
 
 export function getBalance() { return gameState.balance; }
 
@@ -7,6 +8,7 @@ export function addBalance(amount) {
     if (!amount || amount <= 0) return 0;
     gameState.balance += Math.floor(amount);
     saveGame();
+    renderBalance();
     return gameState.balance;
 }
 
@@ -19,6 +21,7 @@ export function spend(amount) {
     if (!canAfford(amount)) return false;
     gameState.balance -= amount;
     saveGame();
+    renderBalance();
     return true;
 }
 

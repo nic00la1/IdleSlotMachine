@@ -1,3 +1,6 @@
+import { showEvent } from '../helpers/eventLog.js';
+import { losuj } from '../spinner.js';
+
 // --- Auto-Spin - stan ---
     var autoSpin = false;
     var autoSpinTimer = null;
@@ -10,14 +13,14 @@
 
         if(autoSpin) {
             autoSpinTimer = setInterval(() => {
-                if (typeof window.losuj === 'function') {
-                    window.losuj();
-                }
+                losuj();
+                showEvent('🔄 Auto-spin wykonał losowanie')
             }, 5000); 
         }
         else {
             clearInterval(autoSpinTimer);
             autoSpinTimer = null;
+            showEvent("⏹️ Auto-spin zatrzymany")
         } 
     }
 
@@ -36,6 +39,3 @@
             clearInterval(autoSpinTimer);
         }
     }
-
-window.toggleAutoSpin = toggleAutoSpin;
-window.initAutoSpinUI = initAutoSpinUI;
