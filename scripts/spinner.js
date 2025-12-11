@@ -4,9 +4,10 @@ import { applyBonusChance } from './upgrades/bonusChance.js';
 
 import { gameState } from './core/state.js';
 import { addBalance } from './core/economy.js';
-import { renderBalance, renderShop, showPayout } from './core/ui.js';
+import { renderBalance, showPayout } from './core/ui.js';
 import { symbols, total } from './symbols.js';
 import { calculateMiddleRowPayout } from './utils.js';
+import { renderShop } from './core/shopUI.js';
 
 // --- Funkcja losuj --- 
 export function losuj() {

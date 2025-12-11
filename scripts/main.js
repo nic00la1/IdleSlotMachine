@@ -1,6 +1,7 @@
 import { loadGame } from "./core/storage.js";
-import { renderBalance, renderShop } from "./core/ui.js";
+import { renderBalance } from "./core/ui.js";
 import { losuj } from "./spinner.js";
+import { renderShop } from "./core/shopUI.js";
 
 function initGame() {
     loadGame();

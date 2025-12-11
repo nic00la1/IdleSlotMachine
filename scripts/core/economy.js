@@ -1,11 +1,11 @@
 import { showEvent } from '../helpers/eventLog.js';
 import { onFasterSpinUpgrade } from '../upgrades/fasterSpin.js';
 import { onPayoutMultiplierUpgrade } from '../upgrades/payoutMultiplier.js';
-import { onBonusChanceUpgrade } from '../upgrades/bonusChance.js';
 import { onAutoSpinUpgrade } from '../upgrades/autoSpin.js';
 import { gameState } from './state.js';
 import { saveGame } from './storage.js';
-import { renderBalance, renderShop } from './ui.js';
+import { renderBalance } from './ui.js';
+import { renderShop } from './shopUI.js';
 
 export function getBalance() { return gameState.balance; }
 
