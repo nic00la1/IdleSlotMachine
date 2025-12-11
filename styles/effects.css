@@ -1,3 +1,5 @@
+/* === Animacja bonusChance === */
+
 .shake {
     animation: shake 0.4s ease;
 }
@@ -9,4 +11,17 @@
     60% { transform: translate(-5px, 0px); }
     80% { transform: translate(5px, 0px); }
     100% { transform: translate(0px, 0px); }
+}
+
+/* === Animacja Blokady przycisku "Losuj" ===*/
+.spin-locked {
+    animation: lockPulse 0.6s ease;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@keyframes lockPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.92); }
+    100% { transform: scale(1); }
 }

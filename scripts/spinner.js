@@ -8,9 +8,12 @@ import { renderBalance, showPayout } from './core/ui.js';
 import { symbols } from './symbols.js';
 import { calculateMiddleRowPayout } from './utils.js';
 import { renderShop } from './core/shopUI.js';
+import { manualSpinLocked, isSpinning, setIsSpinning } from './core/spinButton.js';
 
 // --- Funkcja losuj --- 
 export function losuj() {
+    setIsSpinning(true); // start animacji
+
     const btn = document.querySelector('.btn-container .roll');
     const cells = document.querySelectorAll('.container table td');
 
@@ -46,7 +49,12 @@ export function losuj() {
                 cell.textContent = sym.icon;
                 cell.dataset.symbol = sym.id;
             });
-            if (btn) btn.disabled = false;
+
+            setIsSpinning(false);
+
+            if (btn && !manualSpinLocked) {
+              btn.disabled = false;  
+            } 
 
             // --- Obliczanie wygraną tylko dla środkowego rzędu --- 
             const middleCells = document.querySelectorAll('.container table tr:nth-child(2) td');
