@@ -5,7 +5,7 @@ import { applyBonusChance } from './upgrades/bonusChance.js';
 import { gameState } from './core/state.js';
 import { addBalance } from './core/economy.js';
 import { renderBalance, showPayout } from './core/ui.js';
-import { symbols, total } from './symbols.js';
+import { symbols } from './symbols.js';
 import { calculateMiddleRowPayout } from './utils.js';
 import { renderShop } from './core/shopUI.js';
 
@@ -32,7 +32,7 @@ export function losuj() {
 
     const timer = setInterval(() => {
         cells.forEach(cell => {
-            const sym = symbols[Math.floor(Math.random() * total)];
+            const sym = symbols[Math.floor(Math.random() * symbols.length)];
             cell.textContent = sym.icon;
             cell.dataset.symbol = sym.id;
         });
@@ -42,7 +42,7 @@ export function losuj() {
 
             // Końcowe losowanie
             cells.forEach(cell => {
-                const sym = symbols[Math.floor(Math.random() * total)];
+                const sym = symbols[Math.floor(Math.random() * symbols.length)];
                 cell.textContent = sym.icon;
                 cell.dataset.symbol = sym.id;
             });

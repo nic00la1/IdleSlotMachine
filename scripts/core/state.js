@@ -33,6 +33,14 @@ export const gameState = {
             baseCost: 1000,
             growth: 1.4,
             level: 0
+        },
+        {
+            key: 'removeWorstSymbol',
+            name: 'Usunięcie najgorszego symbolu',
+            description: "Jednorazowo usuwa symbol o najniższej wartości z maszyny.",
+            baseCost: 1500,
+            growth: 1, // nie rośnie bo jest jednorazowe
+            level: 0
         }
     ]
 };

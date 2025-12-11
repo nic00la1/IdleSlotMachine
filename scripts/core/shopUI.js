@@ -6,18 +6,22 @@ import { onBonusChanceUpgrade } from '../upgrades/bonusChance.js';
 import { onPayoutMultiplierUpgrade } from '../upgrades/payoutMultiplier.js';
 import { initAutoSpinUI, onAutoSpinUpgrade } from '../upgrades/autoSpin.js';
 import { gameState } from './state.js';
+import { renderBalance } from './ui.js';
+import { onRemoveWorstSymbolUpgrade } from '../upgrades/removeWorstSymbol.js'
 
 // Mapowanie kluczy na funkcje aktywujące ulepszenia
 const upgradeHandlers = {
       fasterSpin: onFasterSpinUpgrade,
       bonusChance: onBonusChanceUpgrade,
       payoutMultiplier: onPayoutMultiplierUpgrade,
-      autoSpin: onAutoSpinUpgrade  
+      autoSpin: onAutoSpinUpgrade,
+      removeWorstSymbol: onRemoveWorstSymbolUpgrade
 };
 
 // Podział ulepszeń na kategorie
 const MAIN_UPGRADES = ["payoutMultiplier", "fasterSpin", "bonusChance"];
 const SIDE_UPGRADES = ["autoSpin"];
+const ONE_TIME_UPGRADES = ["removeWorstSymbol"];
 
 let openSections = new Set();
 
@@ -28,7 +32,8 @@ export function renderShop() {
 
     const sections = [
         { name: "Główne ulepszenia", keys: MAIN_UPGRADES },
-        { name: "Poboczne ulepszenia", keys: SIDE_UPGRADES }
+        { name: "Poboczne ulepszenia", keys: SIDE_UPGRADES },
+        { name: "Jednorazowe ulepszenia", keys: ONE_TIME_UPGRADES },
     ];
 
     sections.forEach(section => {
@@ -76,7 +81,7 @@ export function renderShop() {
             `;
 
             // --- Auto-Spin ---
-            if(up.key === "autoSpin" && up.level > 0) {
+            if((up.key === "autoSpin" || up.key === "removeWorstSymbol") && up.level > 0) {
                 const info = document.createElement("div");
                 info.textContent = "✅ Auto-Spin został odblokowany";
                 item.appendChild(info);
