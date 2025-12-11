@@ -1,9 +1,11 @@
 import { showEvent } from "../helpers/eventLog.js";
+import { screenShake } from "../helpers/screenShake.js"
 
-// efekt bonusu – używane przy każdym spinie
 export function applyBonusChance(level, payout) {
-    if (level > 0 && Math.random() < 0.2 * level) {
-        return payout * 2; // faktyczny efekt
+    // bonus działa tylko jeśli coś się wygra
+    if (payout > 0 && level > 0 && Math.random() < 0.2 * level) {
+        screenShake();
+        return payout * 2;
     }
     return payout;
 }
