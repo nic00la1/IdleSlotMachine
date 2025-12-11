@@ -85,6 +85,10 @@ export function renderShop() {
                 const info = document.createElement("div");
                 info.textContent = "✅ Auto-Spin został odblokowany";
                 item.appendChild(info);
+
+                // nie dodaje przycisku kup
+                list.appendChild(item);
+                return; 
             } 
 
             // --- Usuwanie najgorszego symbolu ---
@@ -92,6 +96,10 @@ export function renderShop() {
                 const info = document.createElement("div");
                 info.textContent = "✅ Ulepszenie zostało użyte";
                 item.appendChild(info);
+
+                // nie dodaje przycisku kup
+                list.appendChild(item);
+                return;    
             } 
 
             else 
