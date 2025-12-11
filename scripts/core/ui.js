@@ -38,14 +38,13 @@ export function renderShop() {
     };
 
     gameState.upgrades.forEach(up => {
-        const cost = upgradeCost(up);
-
         const item = document.createElement('div');
         item.className = 'upgrade-item';
+
+        // Nagłówek i opis
         item.innerHTML = `
             <div><strong>${up.name}</strong> (poziom ${up.level})</div>
             <div>${up.description}</div>
-            <div>Koszt: ${cost}</div>
         `;
 
         // --- Specjalna logika dla Auto-Spin ---
@@ -55,6 +54,11 @@ export function renderShop() {
             item.appendChild(info);
         } else 
         {
+            const cost = upgradeCost(up);
+            const costDiv = document.createElement("div");
+            costDiv.textContent = `Koszt: ${cost}`;
+            item.appendChild(costDiv);
+
             const btn = document.createElement('button');
             btn.textContent = 'Kup'
             btn.disabled = !canAfford(cost);
