@@ -5,7 +5,7 @@ import { showEvent } from '../helpers/eventLog.js';
 import { onFasterSpinUpgrade } from '../upgrades/fasterSpin.js';
 import { onBonusChanceUpgrade } from '../upgrades/bonusChance.js';
 import { onPayoutMultiplierUpgrade } from '../upgrades/payoutMultiplier.js';
-import { onAutoSpinUpgrade } from '../upgrades/autoSpin.js';
+import { initAutoSpinUI, onAutoSpinUpgrade } from '../upgrades/autoSpin.js';
 
 export function showPayout(amount) {
     const el = document.getElementById('payout');
@@ -48,29 +48,34 @@ export function renderShop() {
             <div>Koszt: ${cost}</div>
         `;
 
-        const btn = document.createElement('button');
-        btn.textContent = 'Kup'
-        btn.disabled = !canAfford(cost);
-        btn.onclick = () => {
-            if (spend(cost)) {
-                up.level++;
-                saveGame();
-                renderShop();
-                renderBalance();
-                showEvent(`🛒 Kupiono upgrade: ${up.name} (poziom ${up.level})`);
+        // --- Specjalna logika dla Auto-Spin ---
+        if(up.key === "autoSpin" && up.level > 0) {
+            const info = document.createElement("div");
+            info.textContent = "✅ Auto-Spin został odblokowany";
+            item.appendChild(info);
+        } else 
+        {
+            const btn = document.createElement('button');
+            btn.textContent = 'Kup'
+            btn.disabled = !canAfford(cost);
+            btn.onclick = () => {
+                if (spend(cost)) {
+                    up.level++;
+                    saveGame();
+                    renderShop();
+                    renderBalance();
+                    showEvent(`🛒 Kupiono upgrade: ${up.name} (poziom ${up.level})`);
 
-                // Wywołanie komunikatu aktywacji
-                if (upgradeHandlers[up.key]) {
-                    upgradeHandlers[up.key](up.level);
+                    // Wywołanie komunikatu aktywacji
+                    if (upgradeHandlers[up.key]) {
+                        upgradeHandlers[up.key](up.level);
+                    }
                 }
-            }
-        };
-
-        item.appendChild(btn);
+            };
+            item.appendChild(btn);
+        }
         el.appendChild(item);
     });
 
-    if (typeof window.initAutoSpinUI === 'function') {
-        window.initAutoSpinUI(gameState);
-    }
+    initAutoSpinUI(gameState);
 }
