@@ -4,7 +4,7 @@ import { applyBonusChance } from './upgrades/bonusChance.js';
 
 import { gameState } from './core/state.js';
 import { addBalance } from './core/economy.js';
-import { showPayout } from './core/ui.js';
+import { renderBalance, renderShop, showPayout } from './core/ui.js';
 import { symbols, total } from './symbols.js';
 import { calculateMiddleRowPayout } from './utils.js';
 
@@ -65,7 +65,13 @@ export function losuj() {
             const totalPayout = Math.floor(payout * multiplier);
             
            showPayout(totalPayout);
-           if (totalPayout > 0) addBalance(totalPayout);
+           if (totalPayout > 0) {
+            addBalance(totalPayout);
+           }
+
+           // Zawsze odśwież UI po spinie
+           renderBalance();
+           renderShop();
         }
     }, interval);
 }

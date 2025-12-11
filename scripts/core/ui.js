@@ -2,6 +2,10 @@ import { gameState } from './state.js';
 import { upgradeCost, canAfford, spend } from './economy.js';
 import { saveGame } from './storage.js';
 import { showEvent } from '../helpers/eventLog.js';
+import { onFasterSpinUpgrade } from '../upgrades/fasterSpin.js';
+import { onBonusChanceUpgrade } from '../upgrades/bonusChance.js';
+import { onPayoutMultiplierUpgrade } from '../upgrades/payoutMultiplier.js';
+import { onAutoSpinUpgrade } from '../upgrades/autoSpin.js';
 
 export function showPayout(amount) {
     const el = document.getElementById('payout');
@@ -25,6 +29,14 @@ export function renderShop() {
     title.style.fontWeight = '600';
     el.appendChild(title);
 
+    // mapa handlerów
+    const upgradeHandlers = {
+      fasterSpin: onFasterSpinUpgrade,
+      bonusChance: onBonusChanceUpgrade,
+      payoutMultiplier: onPayoutMultiplierUpgrade,
+      autoSpin: onAutoSpinUpgrade  
+    };
+
     gameState.upgrades.forEach(up => {
         const cost = upgradeCost(up);
 
@@ -46,6 +58,11 @@ export function renderShop() {
                 renderShop();
                 renderBalance();
                 showEvent(`🛒 Kupiono upgrade: ${up.name} (poziom ${up.level})`);
+
+                // Wywołanie komunikatu aktywacji
+                if (upgradeHandlers[up.key]) {
+                    upgradeHandlers[up.key](up.level);
+                }
             }
         };
 

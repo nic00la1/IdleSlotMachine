@@ -23,6 +23,7 @@ export const gameState = {
             name: 'Szansa na bonus',
             description: 'Dodaje dodatkową szansę na wygraną w środkowym rzędzie.',
             baseCost: 800,
+            growth: 1.4,
             level: 0
         },
         {

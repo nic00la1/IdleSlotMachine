@@ -39,3 +39,7 @@ import { losuj } from '../spinner.js';
             clearInterval(autoSpinTimer);
         }
     }
+
+export function onAutoSpinUpgrade(level) {
+    showEvent(`▶️ Auto-spin odblokowany! Poziom ${level}`);
+} 

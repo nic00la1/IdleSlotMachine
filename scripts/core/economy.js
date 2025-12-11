@@ -1,6 +1,11 @@
+import { showEvent } from '../helpers/eventLog.js';
+import { onFasterSpinUpgrade } from '../upgrades/fasterSpin.js';
+import { onPayoutMultiplierUpgrade } from '../upgrades/payoutMultiplier.js';
+import { onBonusChanceUpgrade } from '../upgrades/bonusChance.js';
+import { onAutoSpinUpgrade } from '../upgrades/autoSpin.js';
 import { gameState } from './state.js';
 import { saveGame } from './storage.js';
-import { renderBalance } from './ui.js';
+import { renderBalance, renderShop } from './ui.js';
 
 export function getBalance() { return gameState.balance; }
 
@@ -13,7 +18,7 @@ export function addBalance(amount) {
 }
 
 export function canAfford(cost) {
-    return gameState.balance >= cost;
+    return Number(gameState.balance) >= Number(cost);
 }
 
 export function spend(amount) {
@@ -26,6 +31,39 @@ export function spend(amount) {
 }
 
 export function upgradeCost(upgrade) {
-    const growth = upgrade.growth || 1.5;
-    return Math.floor(upgrade.baseCost * Math.pow(growth, upgrade.level));
+    const growth = Number(upgrade.growth) || 1.5;
+    const base = Number(upgrade.baseCost);
+    const level = Number(upgrade.level);
+    return Math.floor(base * Math.pow(growth, level));
+}
+
+export function buyUpgrade(upgradeKey) {
+    const up = gameState.upgrades.find(u => u.key === upgradeKey);
+    if (!up) return false;
+
+    const cost = upgradeCost(up);
+    if (!canAfford(cost)) {
+        showEvent("❌ Nie stać Cię na ten upgrade!");
+        return false;
+    } 
+
+    spend(cost);
+    up.level++;
+    saveGame();
+    renderBalance();
+    renderShop();
+
+
+    const upgradeHandlers = {
+        fasterSpin: onFasterSpinUpgrade,
+        bonusChance: onBonusUpgradeUpgrade,
+        payoutMultiplier: onPayoutMultiplierUpgrade,
+        autoSpin: onAutoSpinUpgrade
+    };
+
+    if (upgradeHandlers[upgradeKey]) {
+        upgradeHandlers[upgradeKey](up.level);
+    }
+
+    return true;
 }
