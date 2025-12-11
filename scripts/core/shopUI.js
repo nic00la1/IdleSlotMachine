@@ -80,12 +80,21 @@ export function renderShop() {
                 <div>${up.description}</div>
             `;
 
-            // --- Auto-Spin ---
-            if((up.key === "autoSpin" || up.key === "removeWorstSymbol") && up.level > 0) {
+            // --- Auto-Spin i RemovWorstSymbol---
+            if(up.key === "autoSpin" && up.level > 0) {
                 const info = document.createElement("div");
                 info.textContent = "✅ Auto-Spin został odblokowany";
                 item.appendChild(info);
-            } else 
+            } 
+
+            // --- Usuwanie najgorszego symbolu ---
+            if(up.key === "removeWorstSymbol" && up.level > 0) {
+                const info = document.createElement("div");
+                info.textContent = "✅ Ulepszenie zostało użyte";
+                item.appendChild(info);
+            } 
+
+            else 
             {
                 const cost = upgradeCost(up);
 

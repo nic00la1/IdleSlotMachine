@@ -1,3 +1,4 @@
+import { symbols } from '../symbols.js';
 import {  ECON_KEY_BALANCE, ECON_KEY_UPGRADES } from './constants.js';
 import { gameState } from './state.js';
 
@@ -19,6 +20,16 @@ export function loadGame() {
                 });
             }
         }
+
+        const rawSymbols = localStorage.getItem("symbols");
+        if (rawSymbols) {
+            const savedSymbols = JSON.parse(rawSymbols);
+
+            // Czyszczenie oryginalnej tablicy i wstawienie zapisanych symboli
+            symbols.length = 0;
+            symbols.push(...savedSymbols);
+        }
+
     } catch (e) {
         console.warn("Nie udało się odczytać stanu gry", e);
     }
@@ -28,6 +39,7 @@ export function saveGame() {
     try {
         localStorage.setItem(ECON_KEY_BALANCE, String(gameState.balance));
         localStorage.setItem(ECON_KEY_UPGRADES, JSON.stringify(gameState.upgrades));
+        localStorage.setItem("symbols", JSON.stringify(symbols));
     }
     catch (e) {
         console.warn("Nie udało się zapisać stanu gry", e);

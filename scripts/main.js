@@ -7,7 +7,6 @@ function initGame() {
     loadGame();
     renderBalance();
     renderShop();
-    
 }
 
 // Obsługa przycisku "Losuj"
