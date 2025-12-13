@@ -49,6 +49,14 @@ export const gameState = {
             baseCost: 7777,
             growth: 1, // nie rośnie bo jest jednorazowe
             level: 0
+        },
+        {
+            key: 'wildcardUpgrade',
+            name: 'Wildcard Symbol',
+            description: "Jednorazowo dodaje symbol 🃏, który zamienia się w najlepszy możliwy symbol.",
+            baseCost: 5000,
+            growth: 1, // jednorazowe
+            level: 0
         }
     ]
 };

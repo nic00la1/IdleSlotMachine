@@ -9,6 +9,7 @@ import { gameState } from './state.js';
 import { renderBalance } from './ui.js';
 import { onRemoveWorstSymbolUpgrade } from '../upgrades/removeWorstSymbol.js';
 import { onAddLionSymbolUpgrade } from '../upgrades/addLionSymbol.js';
+import { onWildcardUpgrade } from '../upgrades/wildcardUpgrade.js';
 
 // Mapowanie kluczy na funkcje aktywujące ulepszenia
 const upgradeHandlers = {
@@ -17,13 +18,14 @@ const upgradeHandlers = {
       payoutMultiplier: onPayoutMultiplierUpgrade,
       autoSpin: onAutoSpinUpgrade,
       removeWorstSymbol: onRemoveWorstSymbolUpgrade,
-      addLionSymbol: onAddLionSymbolUpgrade
+      addLionSymbol: onAddLionSymbolUpgrade,
+      wildcardUpgrade: onWildcardUpgrade
 };
 
 // Podział ulepszeń na kategorie
 const MAIN_UPGRADES = ["payoutMultiplier", "fasterSpin", "bonusChance"];
 const SIDE_UPGRADES = ["autoSpin"];
-const ONE_TIME_UPGRADES = ["removeWorstSymbol", "addLionSymbol"];
+const ONE_TIME_UPGRADES = ["removeWorstSymbol", "addLionSymbol", "wildcardUpgrade"];
 
 let openSections = new Set();
 
@@ -108,6 +110,17 @@ export function renderShop() {
             if (up.key === "addLionSymbol" && up.level > 0) {
                 const info = document.createElement("div");
                 info.textContent = "✅ Symbol LION został odblokowany! 🦁";
+                item.appendChild(info);
+
+                list.appendChild(item);
+                return;
+            }
+
+
+            // --- Wildcard jednorazowy ---
+            if (up.key === "wildcardUpgrade" && up.level > 0) {
+                const info = document.createElement("div");
+                info.textContent = "✅ Wildcard został odblokowany! 🃏";
                 item.appendChild(info);
 
                 list.appendChild(item);

@@ -11,6 +11,7 @@ import { manualSpinLocked, setIsSpinning } from './core/spinButton.js';
 import { showEvent } from './helpers/eventLog.js';
 import { playRoar, playGold} from "./helpers/sounds.js"
 import { triggerLionDoubleEffect, triggerLionGoldRain, triggerLionJackpotGlow } from './helpers/lionEffects.js';
+import { resolveWildcard, triggerWildcardEffect } from './helpers/wildcardLogic.js';
 
 // --- Funkcja losuj --- 
 export function losuj() {
@@ -60,10 +61,21 @@ export function losuj() {
 
             // --- Obliczanie wygraną tylko dla środkowego rzędu --- 
             const middleCells = document.querySelectorAll('.container table tr:nth-child(2) td');
-            const middleIds = Array.from(middleCells).map(td => td.dataset.symbol);
+            let middleIds = Array.from(middleCells).map(td => td.dataset.symbol);
+            
+            const wildcardUpgrade = gameState.upgrades.find(u => u.key === "wildcardUpgrade");
+            if (wildcardUpgrade?.level > 0)
+                middleIds = resolveWildcard(middleIds);
+
             let payout = calculateMiddleRowPayout(middleIds);
 
             // 🔥 SPECJALNY EFEKT DLA LWA
+            const lionCells = [];
+            for (let i = 0; i < middleIds.length; i++) {
+                if (middleIds[i] === "lion") 
+                    lionCells.push(middleCells[i]);
+            }
+
             const lionCount = middleIds.filter(id => id === "lion").length;
 
             if (lionCount === 3) {
@@ -71,14 +83,14 @@ export function losuj() {
                 payout *= 3;
 
                 triggerLionGoldRain();
-                triggerLionJackpotGlow(middleCells);
+                triggerLionJackpotGlow(lionCells);
                 playGold();
             } 
             else if (lionCount === 2) {
                 showEvent("🦁🦁 PODWÓJNY LEW! Świetne trafienie!");
                 payout += 100;
 
-                triggerLionDoubleEffect(middleCells);
+                triggerLionDoubleEffect(lionCells);
                 playRoar();
             }
 
