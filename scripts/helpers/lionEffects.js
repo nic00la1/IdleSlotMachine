@@ -1,10 +1,10 @@
-// 1 LEW - delikatny efekt
-export function triggerLionRoarEffect(cells) {
+// 2 LWY - mocniejszy efekt
+export function triggerLionDoubleEffect(cells) {
     cells.forEach(cell => {
-        cell.classList.add("lion-roar");
+        cell.classList.add("lion-double");
         setTimeout(() => {
-            cell.classList.remove("lion-roar", )
-        }, 2000);
+            cell.classList.remove("lion-double", )
+        }, 700);
     });
 }
 

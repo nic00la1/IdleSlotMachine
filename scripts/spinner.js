@@ -10,7 +10,7 @@ import { renderShop } from './core/shopUI.js';
 import { manualSpinLocked, setIsSpinning } from './core/spinButton.js';
 import { showEvent } from './helpers/eventLog.js';
 import { playRoar, playGold} from "./helpers/sounds.js"
-import { triggerLionGoldRain, triggerLionJackpotGlow, triggerLionRoarEffect } from './helpers/lionEffects.js';
+import { triggerLionDoubleEffect, triggerLionGoldRain, triggerLionJackpotGlow } from './helpers/lionEffects.js';
 
 // --- Funkcja losuj --- 
 export function losuj() {
@@ -64,20 +64,21 @@ export function losuj() {
             let payout = calculateMiddleRowPayout(middleIds);
 
             // 🔥 SPECJALNY EFEKT DLA LWA
-            const hasLion = middleIds.includes("lion");
-            const isTripleLion = middleIds.every(id => id === "lion");
+            const lionCount = middleIds.filter(id => id === "lion").length;
 
-            if (isTripleLion) {
+            if (lionCount === 3) {
                 showEvent("🦁🦁🦁 JACKPOT LWA! OGROMNA WYGRANA!");
                 payout *= 3;
 
                 triggerLionGoldRain();
                 triggerLionJackpotGlow(middleCells);
-            } else if (hasLion) {
-                showEvent("🦁 LEW! Trafiłeś najrzadszy symbol!");
-                payout += 50;
+                playGold();
+            } 
+            else if (lionCount === 2) {
+                showEvent("🦁🦁 PODWÓJNY LEW! Świetne trafienie!");
+                payout += 100;
 
-                triggerLionRoarEffect(middleCells);
+                triggerLionDoubleEffect(middleCells);
                 playRoar();
             }
 
