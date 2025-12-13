@@ -11,3 +11,5 @@ export const symbols = [
     {id: 'ice', icon : '🧊', value: 20},
     {id: 'rose', icon : '🌹', value: 10}
 ];
+
+export const lionSymbol = {id: "lion", icon: "🦁", value: 300};

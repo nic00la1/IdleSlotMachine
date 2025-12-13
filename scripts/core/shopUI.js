@@ -7,7 +7,8 @@ import { onPayoutMultiplierUpgrade } from '../upgrades/payoutMultiplier.js';
 import { initAutoSpinUI, onAutoSpinUpgrade } from '../upgrades/autoSpin.js';
 import { gameState } from './state.js';
 import { renderBalance } from './ui.js';
-import { onRemoveWorstSymbolUpgrade } from '../upgrades/removeWorstSymbol.js'
+import { onRemoveWorstSymbolUpgrade } from '../upgrades/removeWorstSymbol.js';
+import { onAddLionSymbolUpgrade } from '../upgrades/addLionSymbol.js';
 
 // Mapowanie kluczy na funkcje aktywujące ulepszenia
 const upgradeHandlers = {
@@ -15,13 +16,14 @@ const upgradeHandlers = {
       bonusChance: onBonusChanceUpgrade,
       payoutMultiplier: onPayoutMultiplierUpgrade,
       autoSpin: onAutoSpinUpgrade,
-      removeWorstSymbol: onRemoveWorstSymbolUpgrade
+      removeWorstSymbol: onRemoveWorstSymbolUpgrade,
+      addLionSymbol: onAddLionSymbolUpgrade
 };
 
 // Podział ulepszeń na kategorie
 const MAIN_UPGRADES = ["payoutMultiplier", "fasterSpin", "bonusChance"];
 const SIDE_UPGRADES = ["autoSpin"];
-const ONE_TIME_UPGRADES = ["removeWorstSymbol"];
+const ONE_TIME_UPGRADES = ["removeWorstSymbol", "addLionSymbol"];
 
 let openSections = new Set();
 
@@ -101,6 +103,16 @@ export function renderShop() {
                 list.appendChild(item);
                 return;    
             } 
+
+            // Dodawanie nowego najlepszego symbolu 🦁
+            if (up.key === "addLionSymbol" && up.level > 0) {
+                const info = document.createElement("div");
+                info.textContent = "✅ Symbol LION został odblokowany! 🦁";
+                item.appendChild(info);
+
+                list.appendChild(item);
+                return;
+            }
 
             else 
             {

@@ -1,14 +1,16 @@
 import { getPayoutMultiplier } from './upgrades/payoutMultiplier.js';
 import { applyFasterSpin } from './upgrades/fasterSpin.js';
 import { applyBonusChance } from './upgrades/bonusChance.js';
-
 import { gameState } from './core/state.js';
 import { addBalance } from './core/economy.js';
 import { renderBalance, showPayout } from './core/ui.js';
 import { symbols } from './symbols.js';
 import { calculateMiddleRowPayout } from './utils.js';
 import { renderShop } from './core/shopUI.js';
-import { manualSpinLocked, isSpinning, setIsSpinning } from './core/spinButton.js';
+import { manualSpinLocked, setIsSpinning } from './core/spinButton.js';
+import { showEvent } from './helpers/eventLog.js';
+import { playRoar, playGold} from "./helpers/sounds.js"
+import { triggerLionGoldRain, triggerLionJackpotGlow, triggerLionRoarEffect } from './helpers/lionEffects.js';
 
 // --- Funkcja losuj --- 
 export function losuj() {
@@ -60,6 +62,24 @@ export function losuj() {
             const middleCells = document.querySelectorAll('.container table tr:nth-child(2) td');
             const middleIds = Array.from(middleCells).map(td => td.dataset.symbol);
             let payout = calculateMiddleRowPayout(middleIds);
+
+            // 🔥 SPECJALNY EFEKT DLA LWA
+            const hasLion = middleIds.includes("lion");
+            const isTripleLion = middleIds.every(id => id === "lion");
+
+            if (isTripleLion) {
+                showEvent("🦁🦁🦁 JACKPOT LWA! OGROMNA WYGRANA!");
+                payout *= 3;
+
+                triggerLionGoldRain();
+                triggerLionJackpotGlow(middleCells);
+            } else if (hasLion) {
+                showEvent("🦁 LEW! Trafiłeś najrzadszy symbol!");
+                payout += 50;
+
+                triggerLionRoarEffect(middleCells);
+                playRoar();
+            }
 
             // --- BonusChance Upgrade ---
             const bonus = gameState.upgrades.find(u => u.key === 'bonusChance');

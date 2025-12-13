@@ -34,6 +34,10 @@ aside#sidebar {
     overflow-y: auto;
 }
 
+#lion-panel {
+    display: none; /* ukryty dopóki nie odblokujesz lwa */
+}
+
 .balance {
     font-weight: 800;
     margin-bottom: 16px;

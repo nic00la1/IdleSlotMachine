@@ -25,3 +25,96 @@
     50% { transform: scale(0.92); }
     100% { transform: scale(1); }
 }
+
+/* LWY - Efekty wizualne */
+.lion-roar {
+    animation: lionRoar 0.5s ease-out;
+}
+
+@keyframes lionRoar {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.lion-double {
+    animation: lionDouble 0.7s ease-out;
+}
+
+@keyframes lionDouble {
+    0% { transform: scale(1); box-shadow: 0 0 0px gold; }
+    50% { transform: scale(1.15); box-shadow: 0 0 25px gold;}
+    100% { transform: scale(1); box-shadow: 0 0 0px gold;}
+}
+
+.lion-jackpot {
+    animation: lionJackpot 1.5s ease-out;   
+}
+
+@keyframes lionJackpot {
+    0% {box-shadow: 0 0 0px gold;}
+    50% {box-shadow: 0 0 40px gold;}
+    100% {box-shadow: 0 0 0px gold;}
+}
+
+.lion-gold-rain::before {
+    content: "";
+    position: fixed;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    pointer-events: none;
+    background-image: url("images/gold-rain.gif");
+    background-size: cover;
+    opacity: 0.8;
+    animation: goldRain 1.5s linear;
+}
+
+@keyframes goldRain {
+    from {transform: translateY(-100px);}
+    to {transform: translateY(200px);}
+}
+
+#lion-panel {
+    position: fixed;
+    right: 20px; 
+    top: 30px;
+    width: 240px;
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 18px;
+    color: black;
+    font-family: inherit;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+@media (max-width: 1446px) {
+    #lion-panel {
+        position: static;
+        width: 220px;
+        margin-top: 20px;
+        transform: none;
+        max-height: none;
+    }
+}
+
+@media (max-width: 1200px) {
+    #lion-panel {
+        width: 220px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 800px) {
+    #lion-panel {
+        position: static;        
+        width: 100%;            
+        margin-top: 16px;
+        transform: none;         
+        max-height: none;
+    }
+}
+

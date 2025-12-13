@@ -41,6 +41,14 @@ export const gameState = {
             baseCost: 1500,
             growth: 1, // nie rośnie bo jest jednorazowe
             level: 0
+        },
+        {
+            key: 'addLionSymbol',
+            name: 'Lion Symbol',
+            description: "Dodaje nowy najlepszy symbol 🦁 (wartość 300). Jednorazowe.",
+            baseCost: 7777,
+            growth: 1, // nie rośnie bo jest jednorazowe
+            level: 0
         }
     ]
 };
