@@ -19,7 +19,7 @@ export function resolveWildcard(middleIds) {
 
 export function triggerWildcardEffect(cells) {
     cells.forEach(cell => {
-        cell.classList.add("wildcard-effect");
-        setTimeout(() => cell.classList.remove("wildcard-effect"), 1200);
+        cell.classList.add("wildcard-transform");
+        setTimeout(() => cell.classList.remove("wildcard-transform"), 500);
     });
 }

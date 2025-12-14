@@ -60,3 +60,5 @@ export const gameState = {
         }
     ]
 };
+
+window.gameState = gameState;

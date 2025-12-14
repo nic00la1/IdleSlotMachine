@@ -141,16 +141,15 @@ export function renderShop() {
 
                 btn.onclick = () => {
                     if (spend(cost)) {
+                        // Wywołanie komunikatu aktywacji
+                        if (upgradeHandlers[up.key]) {
+                            upgradeHandlers[up.key]();
+                        }
                         up.level++;
                         saveGame();
                         renderShop();
                         renderBalance();
                         showEvent(`🛒 Kupiono upgrade: ${up.name} (poziom ${up.level})`);
-
-                        // Wywołanie komunikatu aktywacji
-                        if (upgradeHandlers[up.key]) {
-                            upgradeHandlers[up.key](up.level);
-                        }
                     }
                 };
                 item.appendChild(btn);

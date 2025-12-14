@@ -65,7 +65,7 @@
     width: 100%;
     height: 200%;
     pointer-events: none;
-    background-image: url("images/gold-rain.gif");
+    background-image: url("../images/gold-rain.gif");
     background-size: cover;
     opacity: 0.8;
     animation: goldRain 1.5s linear;
@@ -119,19 +119,21 @@
 }
 
 
-.wildcard-effect {
-    animation: wildcardPulse 1.2s ease-out;
+.wildcard-transform {
+    animation: wildcardTransform 0.5s ease-out forwards;
 }
 
-@keyframes wildcardPulse {
+@keyframes wildcardTransform {
     0% {
-        box-shadow: 0 0 0px 0px rgba(255, 0, 255, 0.8);
+        transform: scale(1);
+        filter: brightness(1);
     }
     50% {
-        box-shadow: 0 0 20px 10px rgba(0, 255, 255, 1);
+        transform: scale(1.4);
+        filter: brightness(2);
     }
     100% {
-        box-shadow: 0 0 0px 0px rgba(255, 0, 255, 0.8);
         transform: scale(1);
+        filter: brightness(1);
     }
 }

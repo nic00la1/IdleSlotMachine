@@ -11,7 +11,8 @@ import { manualSpinLocked, setIsSpinning } from './core/spinButton.js';
 import { showEvent } from './helpers/eventLog.js';
 import { playRoar, playGold} from "./helpers/sounds.js"
 import { triggerLionDoubleEffect, triggerLionGoldRain, triggerLionJackpotGlow } from './helpers/lionEffects.js';
-import { resolveWildcard, triggerWildcardEffect } from './helpers/wildcardLogic.js';
+import { resolveWildcard } from './helpers/wildcardLogic.js';
+import { applyWildcardVisuals } from './helpers/wildcardVisuals.js';
 
 // --- Funkcja losuj --- 
 export function losuj() {
@@ -63,10 +64,14 @@ export function losuj() {
             const middleCells = document.querySelectorAll('.container table tr:nth-child(2) td');
             let middleIds = Array.from(middleCells).map(td => td.dataset.symbol);
             
+            // --- Wildcard ---
             const wildcardUpgrade = gameState.upgrades.find(u => u.key === "wildcardUpgrade");
-            if (wildcardUpgrade?.level > 0)
+            if (wildcardUpgrade?.level > 0) {
+                const before = [...middleIds];
                 middleIds = resolveWildcard(middleIds);
-
+                applyWildcardVisuals(before, middleIds, middleCells);
+            }
+                
             let payout = calculateMiddleRowPayout(middleIds);
 
             // 🔥 SPECJALNY EFEKT DLA LWA

@@ -45,3 +45,5 @@ export function saveGame() {
         console.warn("Nie udało się zapisać stanu gry", e);
     }
 }
+
+window.saveGame = saveGame;
