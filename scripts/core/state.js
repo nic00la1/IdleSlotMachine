@@ -1,6 +1,7 @@
 // Stan gry
 export const gameState = {
     balance: 0, // aktualne saldo
+    symbolQualityShift: 0,
     upgrades: [
         {
             key: 'payoutMultiplier',
@@ -56,6 +57,14 @@ export const gameState = {
             description: "Jednorazowo dodaje symbol 🃏, który zamienia się w najlepszy możliwy symbol.",
             baseCost: 5000,
             growth: 1, // jednorazowe
+            level: 0
+        },
+        {
+            key: 'betterSymbolChance',
+            name: 'Lepsze symbole',
+            description: "Zwiększa szansę na wylosowanie symboli o wyższej wartości.",
+            baseCost: 1200,
+            growth: 1.35, 
             level: 0
         }
     ]

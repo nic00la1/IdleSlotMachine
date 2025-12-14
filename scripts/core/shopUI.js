@@ -10,6 +10,7 @@ import { renderBalance } from './ui.js';
 import { onRemoveWorstSymbolUpgrade } from '../upgrades/removeWorstSymbol.js';
 import { onAddLionSymbolUpgrade } from '../upgrades/addLionSymbol.js';
 import { onWildcardUpgrade } from '../upgrades/wildcardUpgrade.js';
+import { onBetterSymbolChanceUpgrade } from '../upgrades/betterSymbolChance.js';
 
 // Mapowanie kluczy na funkcje aktywujące ulepszenia
 const upgradeHandlers = {
@@ -19,12 +20,13 @@ const upgradeHandlers = {
       autoSpin: onAutoSpinUpgrade,
       removeWorstSymbol: onRemoveWorstSymbolUpgrade,
       addLionSymbol: onAddLionSymbolUpgrade,
-      wildcardUpgrade: onWildcardUpgrade
+      wildcardUpgrade: onWildcardUpgrade,
+      betterSymbolChance: onBetterSymbolChanceUpgrade
 };
 
 // Podział ulepszeń na kategorie
 const MAIN_UPGRADES = ["payoutMultiplier", "fasterSpin", "bonusChance"];
-const SIDE_UPGRADES = ["autoSpin"];
+const SIDE_UPGRADES = ["autoSpin", "betterSymbolChance"];
 const ONE_TIME_UPGRADES = ["removeWorstSymbol", "addLionSymbol", "wildcardUpgrade"];
 
 let openSections = new Set();
@@ -83,6 +85,14 @@ export function renderShop() {
                 <div><strong>${up.name}</strong> (poziom ${up.level})</div>
                 <div>${up.description}</div>
             `;
+
+            // Jeśli to betterSymbolChance - pokaż aktualny bonus
+            if (up.key === "betterSymbolChance") {
+                const percent = Math.round((gameState.symbolQualityShift || 0) * 100);
+                const info = document.createElement("div");
+                info.textContent = `🎯 Aktualny bonus + ${percent}%`;
+                item.appendChild(info);
+            }
 
             // --- Auto-Spin i RemovWorstSymbol---
             if(up.key === "autoSpin" && up.level > 0) {

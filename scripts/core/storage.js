@@ -40,6 +40,10 @@ export function loadGame() {
             }
         }
 
+        const rawShift = localStorage.getItem("symbolQualityShift");
+        if (rawShift !== null) 
+            gameState.symbolQualityShift = parseFloat(rawShift) || 0;
+
     } catch (e) {
         console.warn("Nie udało się odczytać stanu gry", e);
     }
@@ -51,6 +55,7 @@ export function saveGame() {
         localStorage.setItem(ECON_KEY_UPGRADES, JSON.stringify(gameState.upgrades));
         localStorage.setItem("symbols", JSON.stringify(symbols));
         localStorage.setItem("lionFury", JSON.stringify(gameState.lionFury));
+        localStorage.setItem("symbolQualityShift", String(gameState.symbolQualityShift));
     }
     catch (e) {
         console.warn("Nie udało się zapisać stanu gry", e);

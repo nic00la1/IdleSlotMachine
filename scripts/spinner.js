@@ -15,6 +15,7 @@ import { resolveWildcard } from './helpers/wildcardLogic.js';
 import { applyWildcardVisuals } from './helpers/wildcardVisuals.js';
 import { addLionFury } from './core/lionFury.js';
 import { onSpinDuringLionFury } from './core/lionFury.js';
+import { getRandomSymbol } from './helpers/symbolRandomizer.js';
 
 // --- Funkcja losuj --- 
 export function losuj() {
@@ -41,7 +42,7 @@ export function losuj() {
 
     const timer = setInterval(() => {
         cells.forEach(cell => {
-            const sym = symbols[Math.floor(Math.random() * symbols.length)];
+            const sym = getRandomSymbol();
             cell.textContent = sym.icon;
             cell.dataset.symbol = sym.id;
         });
@@ -51,7 +52,7 @@ export function losuj() {
 
             // Końcowe losowanie
             cells.forEach(cell => {
-                const sym = symbols[Math.floor(Math.random() * symbols.length)];
+                const sym = getRandomSymbol();
                 cell.textContent = sym.icon;
                 cell.dataset.symbol = sym.id;
             });
@@ -68,6 +69,19 @@ export function losuj() {
             const middleCells = document.querySelectorAll('.container table tr:nth-child(2) td');
             let middleIds = Array.from(middleCells).map(td => td.dataset.symbol);
             
+            // Lepsze symbole działaja
+            if (gameState.symbolQualityShift > 0) {
+                const premiumCount = middleIds.filter(id => {
+                    const s = symbols.find(sym => sym.id === id);
+                    return s.value >= 100;
+                }).length;
+
+                if (premiumCount > 0) {
+                    const percent = Math.round(gameState.symbolQualityShift * 100);
+                    showEvent(`🎯 Lepsze symbole działają! (+${percent}%)`);
+                }
+            }
+
             // --- Wildcard ---
             const wildcardUpgrade = gameState.upgrades.find(u => u.key === "wildcardUpgrade");
             let before = [...middleIds];
