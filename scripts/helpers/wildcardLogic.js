@@ -3,7 +3,9 @@ import { symbols } from "../symbols.js";
 export function resolveWildcard(middleIds) {
     if (!middleIds.includes("wildcard")) return middleIds;
 
-    const withoutWild = middleIds.filter(id => id !== "wildcard");
+    const safeIds = middleIds.map(id => id === "lion" ? "lion" : id); 
+
+    const withoutWild = safeIds.filter(id => id !== "wildcard");
 
     if (withoutWild.length === 0) {
         const best = symbols.reduce((a, b) => a.value > b.value ? a : b);

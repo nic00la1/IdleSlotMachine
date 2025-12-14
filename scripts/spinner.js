@@ -13,6 +13,8 @@ import { playRoar, playGold} from "./helpers/sounds.js"
 import { triggerLionDoubleEffect, triggerLionGoldRain, triggerLionJackpotGlow } from './helpers/lionEffects.js';
 import { resolveWildcard } from './helpers/wildcardLogic.js';
 import { applyWildcardVisuals } from './helpers/wildcardVisuals.js';
+import { addLionFury } from './core/lionFury.js';
+import { onSpinDuringLionFury } from './core/lionFury.js';
 
 // --- Funkcja losuj --- 
 export function losuj() {
@@ -60,6 +62,8 @@ export function losuj() {
               btn.disabled = false;  
             } 
 
+            onSpinDuringLionFury();
+
             // --- Obliczanie wygraną tylko dla środkowego rzędu --- 
             const middleCells = document.querySelectorAll('.container table tr:nth-child(2) td');
             let middleIds = Array.from(middleCells).map(td => td.dataset.symbol);
@@ -81,7 +85,26 @@ export function losuj() {
                     lionCells.push(middleCells[i]);
             }
 
+            lionCells.forEach(cell => {
+                cell.classList.add("lion-hit");
+                setTimeout(() => cell.classList.remove("lion-hit"), 350);
+            });
+
             const lionCount = middleIds.filter(id => id === "lion").length;
+
+            const furyGain = {
+                1: 2,
+                2: 6,
+                3: 15
+            };
+
+            if (lionCount > 0)
+                addLionFury(furyGain[lionCount]);
+
+            const bar = document.getElementById("lion-fury-bar");
+            bar.classList.add("gain");
+            setTimeout(() => bar.classList.remove("gain"), 400);
+
 
             if (lionCount === 3) {
                 showEvent("🦁🦁🦁 JACKPOT LWA! OGROMNA WYGRANA!");

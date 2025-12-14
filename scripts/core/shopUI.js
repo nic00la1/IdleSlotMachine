@@ -141,11 +141,11 @@ export function renderShop() {
 
                 btn.onclick = () => {
                     if (spend(cost)) {
+                        up.level++;
                         // Wywołanie komunikatu aktywacji
                         if (upgradeHandlers[up.key]) {
-                            upgradeHandlers[up.key]();
+                            upgradeHandlers[up.key](up.level);
                         }
-                        up.level++;
                         saveGame();
                         renderShop();
                         renderBalance();
