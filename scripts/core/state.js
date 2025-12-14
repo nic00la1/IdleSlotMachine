@@ -66,6 +66,14 @@ export const gameState = {
             baseCost: 1200,
             growth: 1.35, 
             level: 0
+        },
+        {
+            key: "passiveIncome",
+            name: "Pasywny przyrost",
+            description: "Zarabiasz automatycznie co sekundę.",
+            baseCost: 500,
+            growth: 1.6,
+            level: 0
         }
     ]
 };

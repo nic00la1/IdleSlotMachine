@@ -11,6 +11,7 @@ import { onRemoveWorstSymbolUpgrade } from '../upgrades/removeWorstSymbol.js';
 import { onAddLionSymbolUpgrade } from '../upgrades/addLionSymbol.js';
 import { onWildcardUpgrade } from '../upgrades/wildcardUpgrade.js';
 import { onBetterSymbolChanceUpgrade } from '../upgrades/betterSymbolChance.js';
+import { onPassiveIncomeUpgrade } from '../upgrades/passiveIncome.js';
 
 // Mapowanie kluczy na funkcje aktywujące ulepszenia
 const upgradeHandlers = {
@@ -21,12 +22,13 @@ const upgradeHandlers = {
       removeWorstSymbol: onRemoveWorstSymbolUpgrade,
       addLionSymbol: onAddLionSymbolUpgrade,
       wildcardUpgrade: onWildcardUpgrade,
-      betterSymbolChance: onBetterSymbolChanceUpgrade
+      betterSymbolChance: onBetterSymbolChanceUpgrade,
+      passiveIncome: onPassiveIncomeUpgrade
 };
 
 // Podział ulepszeń na kategorie
 const MAIN_UPGRADES = ["payoutMultiplier", "fasterSpin", "bonusChance"];
-const SIDE_UPGRADES = ["autoSpin", "betterSymbolChance"];
+const SIDE_UPGRADES = ["autoSpin", "betterSymbolChance", "passiveIncome"];
 const ONE_TIME_UPGRADES = ["removeWorstSymbol", "addLionSymbol", "wildcardUpgrade"];
 
 let openSections = new Set();
@@ -91,6 +93,15 @@ export function renderShop() {
                 const percent = Math.round((gameState.symbolQualityShift || 0) * 100);
                 const info = document.createElement("div");
                 info.textContent = `🎯 Aktualny bonus + ${percent}%`;
+                item.appendChild(info);
+            }
+
+            // Pasywny dochód
+            if (up.key === "passiveIncome") {
+                const lvl = up.level;
+                const income = lvl * 1;
+                const info = document.createElement("div");
+                info.textContent = `💰 Zarabiasz +${income}$/s`;
                 item.appendChild(info);
             }
 
