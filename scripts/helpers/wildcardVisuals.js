@@ -26,10 +26,10 @@ export function applyWildcardVisuals(before, after, middleCells) {
             cell.textContent = sym.icon;
 
             // efekt transformacji
-            cell.classList.add("wildcard-transform");
-            setTimeout(() => cell.classList.remove("wildcard-transform"), 500);
+            cell.classList.add("wildcard-morph-out");
+            setTimeout(() => cell.classList.remove("wildcard-morph-out"), 250);
         });
-    }, 200);
+    }, 250);
 
     showEvent("🃏 Wildcard aktywowany! Symbol zmienił się na najlepszy możliwy!");
 }

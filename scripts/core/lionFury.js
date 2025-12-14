@@ -3,10 +3,6 @@ import { showEvent } from "../helpers/eventLog.js";
 import { renderLionFuryUI } from './lionFuryUI.js';
 
 export function initLionFury() {
-    gameState.lionFury.value = 0;
-    gameState.lionFury.active = false;
-    gameState.lionFury.spinsLeft = 0;
-
     if (!gameState.lionFury) {
         gameState.lionFury = {
             value: 0,
@@ -15,6 +11,12 @@ export function initLionFury() {
             spinsLeft: 0
         };
     }
+    
+    gameState.lionFury.value = 0;
+    gameState.lionFury.active = false;
+    gameState.lionFury.spinsLeft = 0;
+
+
     renderLionFuryUI();
 }
 

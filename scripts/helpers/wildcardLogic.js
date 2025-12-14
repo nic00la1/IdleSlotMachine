@@ -3,20 +3,21 @@ import { symbols } from "../symbols.js";
 export function resolveWildcard(middleIds) {
     if (!middleIds.includes("wildcard")) return middleIds;
 
-    const safeIds = middleIds.map(id => id === "lion" ? "lion" : id); 
+    const withoutWild = middleIds.filter(id => id !== "wildcard");
 
-    const withoutWild = safeIds.filter(id => id !== "wildcard");
+    const allSame = withoutWild.length > 0 && withoutWild.every(id => id === withoutWild[0]);
 
-    if (withoutWild.length === 0) {
+    if (allSame) {
         const best = symbols.reduce((a, b) => a.value > b.value ? a : b);
-        return ["wildcard", "wildcard", "wildcard"].map(() => best.id)
+        return middleIds.map(id => id === "wildcard" ? best.id : id);
     }
 
-    const bestSymbol = withoutWild
+    const candidates = withoutWild
         .map(id => symbols.find(s => s.id === id))
-        .sort((a, b) => b.value - a.value)[0];
+        .filter(Boolean);
 
-    return middleIds.map(id => id === "wildcard" ? bestSymbol.id : id);
+        const bestSymbol = candidates.sort((a, b) => b.value - a.value)[0];
+        return middleIds.map(id => id === "wildcard" ? bestSymbol.id : id);
 }
 
 export function triggerWildcardEffect(cells) {

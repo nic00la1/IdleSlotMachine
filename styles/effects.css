@@ -210,3 +210,34 @@
     0% { filter: brightness(2); }
     100% { filter: brightness(1); }
 }
+
+
+@keyframes wildcard-morph-out {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+}
+
+@keyframes wildcard-morph-in {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.wildcard-morph-out {
+    animation: wildcard-morph-out 0.25s ease forwards;
+}
+
+.wildcard-morph-in {
+    animation: wildcard-morph-in 0.25s ease forwards;
+}

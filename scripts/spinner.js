@@ -70,9 +70,18 @@ export function losuj() {
             
             // --- Wildcard ---
             const wildcardUpgrade = gameState.upgrades.find(u => u.key === "wildcardUpgrade");
+            let before = [...middleIds];
+
             if (wildcardUpgrade?.level > 0) {
-                const before = [...middleIds];
                 middleIds = resolveWildcard(middleIds);
+
+                for (let i = 0; i < middleCells.length; i++) {
+                    const newId = middleIds[i];
+                    const sym = symbols.find(s => s.id === newId);
+                    middleCells[i].dataset.symbol = newId;
+                    middleCells[i].textContent = sym.icon;
+                }
+
                 applyWildcardVisuals(before, middleIds, middleCells);
             }
                 
