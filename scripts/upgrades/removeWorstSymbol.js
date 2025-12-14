@@ -9,11 +9,22 @@ export function onRemoveWorstSymbolUpgrade() {
         return;
     }
 
-    // Sortowanie symboli po wartości (rosnąco)
-    symbols.sort((a, b) => a.value - b.value);
+    const nonWild = symbols.filter(s => s.id !== "wildcard");
 
-    const removed = symbols.shift();
+    if (nonWild.length === 0) {
+        showEvent("⚠️ Nie można usunąć symbolu - wildcard nie może być usunięty.");
+        return;
+    }
+
+    // Sortowanie symboli po wartości (rosnąco)
+    nonWild.sort((a, b) => a.value - b.value);
+
+    const worst = nonWild[0];
+    const index = symbols.findIndex(s => s.id === worst.id);
+
+    if (index !== -1) symbols.splice(index, 1);
+
     saveGame();
 
-    showEvent(`❌ Usunięto najgorszy symbol: ${removed.icon} (wartość ${removed.value})`);
+    showEvent(`❌ Usunięto najgorszy symbol: ${worst.icon} (wartość ${worst.value})`);
 }
