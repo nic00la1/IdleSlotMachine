@@ -13,6 +13,7 @@ import { onWildcardUpgrade } from '../upgrades/wildcardUpgrade.js';
 import { onBetterSymbolChanceUpgrade } from '../upgrades/betterSymbolChance.js';
 import { onPassiveIncomeUpgrade } from '../upgrades/passiveIncome.js';
 import { onSymbolValueBoost } from '../upgrades/symbolValueBoost.js';
+import { onPayoutBoost } from '../upgrades/payoutBoost.js';
 
 // Mapowanie kluczy na funkcje aktywujące ulepszenia
 const upgradeHandlers = {
@@ -25,11 +26,12 @@ const upgradeHandlers = {
       wildcardUpgrade: onWildcardUpgrade,
       betterSymbolChance: onBetterSymbolChanceUpgrade,
       passiveIncome: onPassiveIncomeUpgrade,
-      symbolValueBoost: onSymbolValueBoost
+      symbolValueBoost: onSymbolValueBoost,
+      payoutBoost: onPayoutBoost
 };
 
 // Podział ulepszeń na kategorie
-const MAIN_UPGRADES = ["payoutMultiplier", "fasterSpin", "bonusChance"];
+const MAIN_UPGRADES = ["payoutMultiplier", "fasterSpin", "bonusChance", "payoutBoost"];
 const SIDE_UPGRADES = ["autoSpin", "betterSymbolChance", "passiveIncome", "symbolValueBoost"];
 const ONE_TIME_UPGRADES = ["removeWorstSymbol", "addLionSymbol", "wildcardUpgrade"];
 
@@ -90,7 +92,15 @@ export function renderShop() {
                 <div>${up.description}</div>
             `;
 
-            // Jeśli to symbolValueBoost - pokaż aktualny bonus
+            // Jeśli to payoutBoost - pokaż aktualny bonus do wypłaty
+            if (up.key === "payoutBoost") {
+                const bonus = up.level * 10;
+                const info = document.createElement("div");
+                info.textContent = `🔧 Aktualny bonus + ${bonus}% do wszystkich wygranych.`;
+                item.appendChild(info);
+            }
+
+            // Jeśli to symbolValueBoost - pokaż aktualny bonus LVL
             if (up.key === "symbolValueBoost") {
                 const lvl = up.level;
                 const info = document.createElement("div");

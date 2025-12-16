@@ -18,6 +18,9 @@ export function calculateMiddleRowPayout(middleIds) {
         if (cnt === 2) payout += val * 2; // Dla wylosowania tego samego symbolu 2 razy (zysk = wartość symbolu * 2)
         if (cnt === 3) payout += val * 5; // Dla wylosowania tego samego symbolu 3 razy (zysk = wartość symbolu * 5)
     }
+    const boostPayoutLevel = gameState.upgrades.find(u => u.key === "payoutBoost")?.level || 0;
+    payout = Math.floor(payout * (1 + boostPayoutLevel * 0.10)); 
+
     return payout;
 }
 

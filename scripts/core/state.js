@@ -82,6 +82,14 @@ export const gameState = {
             baseCost: 1700,
             growth: 1.25,
             level: 0
+        },
+        {
+            key: "payoutBoost",
+            name: "Zwiększenie mnożnika",
+            description: "Zwiększa wszystkie wygrane o 10% za każdy poziom.",
+            baseCost: 2500,
+            growth: 1.35,
+            level: 0
         }
     ]
 };
