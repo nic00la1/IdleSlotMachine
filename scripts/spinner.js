@@ -16,6 +16,7 @@ import { applyWildcardVisuals } from './helpers/wildcardVisuals.js';
 import { addLionFury } from './core/lionFury.js';
 import { onSpinDuringLionFury } from './core/lionFury.js';
 import { getRandomSymbol } from './helpers/symbolRandomizer.js';
+import { renderPayoutDetails } from './core/ui.js'; 
 
 // --- Funkcja losuj --- 
 export function losuj() {
@@ -99,7 +100,9 @@ export function losuj() {
                 applyWildcardVisuals(before, middleIds, middleCells);
             }
                 
-            let payout = calculateMiddleRowPayout(middleIds);
+            let result = calculateMiddleRowPayout(middleIds);
+            showPayout(result.total);
+            renderPayoutDetails(result.details, result.total);
 
             // 🔥 SPECJALNY EFEKT DLA LWA
             const lionCells = [];
@@ -131,7 +134,7 @@ export function losuj() {
 
             if (lionCount === 3) {
                 showEvent("🦁🦁🦁 JACKPOT LWA! OGROMNA WYGRANA!");
-                payout *= 3;
+                result.total *= 3;
 
                 triggerLionGoldRain();
                 triggerLionJackpotGlow(lionCells);
@@ -139,7 +142,7 @@ export function losuj() {
             } 
             else if (lionCount === 2) {
                 showEvent("🦁🦁 PODWÓJNY LEW! Świetne trafienie!");
-                payout += 100;
+                result.total += 100;
 
                 triggerLionDoubleEffect(lionCells);
                 playRoar();
@@ -148,14 +151,14 @@ export function losuj() {
             // --- BonusChance Upgrade ---
             const bonus = gameState.upgrades.find(u => u.key === 'bonusChance');
             if (bonus) {
-                payout = applyBonusChance(bonus.level, payout);
+                result.total = applyBonusChance(bonus.level, result.total);
             }
 
             // --- PayoutMultiplier Upgrade ---
             const multiplierUpgrade = gameState.upgrades.find(u => u.key === 'payoutMultiplier');
             const multiplier = multiplierUpgrade ? getPayoutMultiplier(multiplierUpgrade.level) : 1;
 
-            const totalPayout = Math.floor(payout * multiplier);
+            const totalPayout = Math.floor(result.total * multiplier);
             
            showPayout(totalPayout);
            if (totalPayout > 0) {

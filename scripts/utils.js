@@ -2,26 +2,54 @@ import { symbols } from './symbols.js';
 import { gameState } from './core/state.js';
 
 export function calculateMiddleRowPayout(middleIds) {
-    var counts = {};
-    for (var i = 0; i < middleIds.length; i++) {
-        var id = middleIds[i];
-        counts[id] = (counts[id] || 0) + 1; 
+    const counts = {};
+    for (const id of middleIds) {
+        counts[id] = (counts[id] || 0) + 1;
     }
 
-    var payout = 0;
-    for (var id in counts) {
+    const details = [];
+    let payout = 0;
+
+    for (const id in counts) {
         if (!Object.prototype.hasOwnProperty.call(counts, id)) continue;
-        var cnt = counts[id];
-        var symbol = symbols.find(s => s.id === id);
-        const boostLevel = gameState.upgrades.find(u => u.key === "symbolValueBoost")?.level || 0;
-        var val = symbol ? symbol.value + boostLevel: 0;
-        if (cnt === 2) payout += val * 2; // Dla wylosowania tego samego symbolu 2 razy (zysk = wartość symbolu * 2)
-        if (cnt === 3) payout += val * 5; // Dla wylosowania tego samego symbolu 3 razy (zysk = wartość symbolu * 5)
-    }
-    const boostPayoutLevel = gameState.upgrades.find(u => u.key === "payoutBoost")?.level || 0;
-    payout = Math.floor(payout * (1 + boostPayoutLevel * 0.10)); 
 
-    return payout;
+        const count = counts[id];
+        const symbol = symbols.find(s => s.id === id);
+        if (!symbol) continue;
+        
+        const baseValue = symbol.value;
+
+        // Bonus do wartości symboli
+        const boostLevel = gameState.upgrades.find(u => u.key === "symbolValueBoost")?.level || 0;
+        const boostedValue = baseValue + boostLevel;
+
+        // Oblicz subtotal
+        let subtotal = 0;
+        if (count === 2) subtotal = boostedValue * 2;
+        if (count === 3) subtotal = boostedValue * 5;
+        
+        payout += subtotal;
+
+        // Zapisz szczegóły
+        details.push({
+            id,
+            icon: symbol.icon,
+            baseValue,
+            boostLevel,
+            boostedValue,
+            count,
+            subtotal
+        });
+    }
+
+    // Bonus do mnożnika wypłat
+    const payoutBoostLevel = gameState.upgrades.find(u => u.key === "payoutBoost")?.level || 0;
+    payout = Math.floor(payout * (1 + payoutBoostLevel * 0.10));
+
+    return {
+        total: payout,
+        details
+    }
 }
 
 export function showPayout(amount) {

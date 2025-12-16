@@ -1,0 +1,41 @@
+#payout-details {
+    margin-top: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.payout-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    font-size: 14px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.payout-table th {
+    background: rgba(255, 215, 0, 0.25);
+    padding: 6px 8px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.4);
+}
+
+.payout-table td {
+    padding: 6px 8px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.payout-table tr:last-child td {
+    border-bottom: none;
+}
+
+.payout-table tr:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.payout-table td:first-child {
+    font-size: 20px;
+}
