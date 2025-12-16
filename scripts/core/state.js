@@ -74,6 +74,14 @@ export const gameState = {
             baseCost: 500,
             growth: 1.6,
             level: 0
+        },
+        {
+            key: "symbolValueBoost",
+            name: "Zwiększenie wartości symboli",
+            description: "Zwiększa wartość symboli.",
+            baseCost: 1700,
+            growth: 1.25,
+            level: 0
         }
     ]
 };
